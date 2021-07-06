@@ -73,14 +73,17 @@ android {
     }
 }
 
+val libraryName = "permissions-compose-ktx"
+val libraryGroup = "se.warting"
+val libraryVersion = androidGitVersion.name().replace("v", "")
+
+
 dependencies {
-    api(project(":lib"))
+    // api(project(":lib"))
+    api("se.warting:permissions-ktx:$libraryVersion")
     api("androidx.activity:activity-compose:1.3.0-rc01")
 }
 
-val libraryName = "permissions-ktx"
-val libraryGroup = "com.github.warting"
-val libraryVersion = androidGitVersion.name().replace("v", "")
 
 tasks.withType<DokkaTask>().configureEach {
     dokkaSourceSets {
@@ -127,7 +130,7 @@ publishing {
         }
     }
     publications {
-        register<MavenPublication>("release") {
+        register<MavenPublication>("permCompose") {
 
             artifactId = libraryName
             groupId = libraryGroup

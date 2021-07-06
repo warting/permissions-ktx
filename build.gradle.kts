@@ -31,6 +31,7 @@ allprojects {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://premex.jfrog.io/artifactory/premex/")
     }
 }
 
