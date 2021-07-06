@@ -123,9 +123,9 @@ publishing {
             version = libraryVersion
 
             afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }
-            artifact(tasks.getByName("androidJavadocJar"))
-            artifact(tasks.getByName("androidHtmlJar"))
-            artifact(tasks.getByName("androidSourcesJar"))
+//            artifact(tasks.getByName("androidJavadocJar"))
+//            artifact(tasks.getByName("androidHtmlJar"))
+//            artifact(tasks.getByName("androidSourcesJar"))
 
             pom {
                 name.set(libraryName)
