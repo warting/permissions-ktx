@@ -22,7 +22,7 @@ import java.net.URL
 plugins {
     id("com.android.library")
     kotlin("android")
-    id("org.jetbrains.dokka") version "1.4.20"
+    id("org.jetbrains.dokka") version "1.4.32"
     id("com.jfrog.bintray") version "1.8.5"
     `maven-publish`
 }
@@ -48,8 +48,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -67,11 +67,11 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
     api("androidx.startup:startup-runtime:1.0.0")
-    api("androidx.activity:activity-ktx:1.3.0-beta01")
-    api("androidx.fragment:fragment-ktx:1.3.4")
+    api("androidx.activity:activity-ktx:1.3.0-rc01")
+    api("androidx.fragment:fragment-ktx:1.3.5")
 
     testImplementation("junit:junit:4.13.2")
-    testImplementation("com.google.truth:truth:1.0.1")
+    testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3")
     testImplementation("org.jetbrains.kotlin:kotlin-test:${KotlinCompilerVersion.VERSION}")
@@ -123,9 +123,9 @@ publishing {
             version = libraryVersion
 
             afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }
-            artifact(tasks.getByName("androidJavadocJar"))
-            artifact(tasks.getByName("androidHtmlJar"))
-            artifact(tasks.getByName("androidSourcesJar"))
+//            artifact(tasks.getByName("androidJavadocJar"))
+//            artifact(tasks.getByName("androidHtmlJar"))
+//            artifact(tasks.getByName("androidSourcesJar"))
 
             pom {
                 name.set(libraryName)

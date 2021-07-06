@@ -1,4 +1,5 @@
-# permissions-ktx [ ![Download](https://api.bintray.com/packages/skimarxall/maven/permissions-ktx/images/download.svg?version=0.7) ](https://bintray.com/skimarxall/maven/permissions-ktx/0.7/link)
+This is a fork of https://github.com/marcelpinto/permissions-ktx in order to make a quick and dirty deploy of lib-compose until the original library is deployed to maven central
+https://github.com/marcelpinto/permissions-ktx/issues/11
 
 Kotlin Lightweight Android permissions library that follows the permission request principles
 and its Jetpack Compose friendly.
@@ -45,7 +46,7 @@ The library is available via JCentral:
 allprojects {
     repositories {
         // ...
-        jcenter()
+        mavenCentral()
     }
 }
 ```
