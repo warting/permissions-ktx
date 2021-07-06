@@ -25,7 +25,14 @@ plugins {
     id("org.jetbrains.dokka") version "1.4.32"
     id("com.jfrog.bintray") version "1.8.5"
     `maven-publish`
+    id("com.gladed.androidgitversion") version "0.4.14"
 }
+
+
+androidGitVersion {
+    tagPattern = "^v[0-9]+.*"
+}
+
 
 android {
     compileSdk = 30
@@ -73,14 +80,14 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("com.google.truth:truth:1.1.3")
     testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0")
     testImplementation("org.jetbrains.kotlin:kotlin-test:${KotlinCompilerVersion.VERSION}")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:${KotlinCompilerVersion.VERSION}")
 }
 
 val libraryName = "permissions-ktx"
-val libraryGroup = "dev.marcelpinto.permissions"
-val libraryVersion = "0.7"
+val libraryGroup = "se.warting"
+val libraryVersion = androidGitVersion.name().replace("v", "")
 
 tasks.withType<DokkaTask>().configureEach {
     dokkaSourceSets {
@@ -90,7 +97,7 @@ tasks.withType<DokkaTask>().configureEach {
             sourceLink {
                 localDirectory.set(file("src/main/java"))
                 remoteUrl.set(
-                    URL("https://github.com/marcelpinto/permissions-ktx/tree/main/lib/src/main/java")
+                    URL("https://github.com/marcelpinto/permissions-ktx/tree/main/lib-compose/src/main/java")
                 )
                 remoteLineSuffix.set("#L")
             }
@@ -110,22 +117,33 @@ val androidHtmlJar by tasks.register<Jar>("androidHtmlJar") {
     archiveClassifier.set("html-doc")
 }
 
-val androidSourcesJar by tasks.register<Jar>("androidSourcesJar") {
-    archiveClassifier.set("sources")
-    from(android.sourceSets.getByName("main").java.srcDirs())
-}
+//val androidSourcesJar by tasks.register<Jar>("androidSourcesJar") {
+//    archiveClassifier.set("sources")
+//    from(android.sourceSets.getByName("main").java.srcDirs())
+//}
 
 publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/warting/permissions-ktx")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+            }
+        }
+    }
     publications {
-        register<MavenPublication>("release") {
+        register<MavenPublication>("permLib") {
+
             artifactId = libraryName
             groupId = libraryGroup
             version = libraryVersion
 
             afterEvaluate { artifact(tasks.getByName("bundleReleaseAar")) }
-//            artifact(tasks.getByName("androidJavadocJar"))
-//            artifact(tasks.getByName("androidHtmlJar"))
-//            artifact(tasks.getByName("androidSourcesJar"))
+            //artifact(tasks.getByName("androidJavadocJar"))
+            //artifact(tasks.getByName("androidHtmlJar"))
+            //artifact(tasks.getByName("androidSourcesJar"))
 
             pom {
                 name.set(libraryName)
@@ -173,27 +191,6 @@ publishing {
                     }
                 }
             }
-        }
-    }
-}
-
-bintray {
-    val properties = gradleLocalProperties(rootDir)
-    user = properties.getProperty("bintray.username")
-    key = properties.getProperty("bintray.password")
-    setPublications("release")
-    publish = true
-    override = true
-    pkg = PackageConfig().apply {
-        repo = "maven"
-        name = libraryName
-        desc =
-            "Kotlin Lightweight Android permissions library that follows the permissions best practices"
-        setLicenses("Apache-2.0")
-        vcsUrl = "https://github.com/marcelpinto/permissions-ktx.git"
-        publicDownloadNumbers = true
-        version = VersionConfig().apply {
-            name = libraryVersion
         }
     }
 }

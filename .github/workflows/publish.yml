@@ -29,8 +29,14 @@ jobs:
           distribution: 'adopt'
           java-version: 11
 
-      - name: Publish application
-        run: ./gradlew publishAllPublicationsToGitHubPackagesRepository --stacktrace
+      - name: Publish lib
+        run: ./gradlew publishPermLibPublicationToGitHubPackagesRepository --stacktrace
+        env:
+          USERNAME: ${{ secrets.USERNAME }}
+          TOKEN: ${{ secrets.TOKEN }}
+
+      - name: Publish compose lib
+        run: ./gradlew publishPermComposePublicationToGitHubPackagesRepository --stacktrace
         env:
           USERNAME: ${{ secrets.USERNAME }}
           TOKEN: ${{ secrets.TOKEN }}
