@@ -21,10 +21,15 @@ plugins {
     id("com.android.library")
     id("kotlin-android")
     id("org.jetbrains.dokka") version "1.4.20"
-    `maven-publish`
+    id("com.gladed.androidgitversion") version "0.4.14"
+    id("maven-publish")
 }
 
 val composeVersion = rootProject.extra["compose_version"] as String
+
+androidGitVersion {
+    tagPattern = "^v[0-9]+.*"
+}
 
 android {
     compileSdk = 30
@@ -47,11 +52,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
         freeCompilerArgs = listOf("-Xinline-classes", "-Xopt-in=kotlin.RequiresOptIn")
     }
 
@@ -75,7 +80,7 @@ dependencies {
 
 val libraryName = "permissions-ktx"
 val libraryGroup = "com.github.warting"
-val libraryVersion = "0.0.8"
+val libraryVersion = androidGitVersion.name().replace("v", "")
 
 tasks.withType<DokkaTask>().configureEach {
     dokkaSourceSets {
@@ -111,8 +116,19 @@ val androidHtmlJar by tasks.register<Jar>("androidHtmlJar") {
 //}
 
 publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/warting/permissions-ktx")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
+            }
+        }
+    }
     publications {
         register<MavenPublication>("release") {
+
             artifactId = libraryName
             groupId = libraryGroup
             version = libraryVersion
