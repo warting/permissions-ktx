@@ -16,10 +16,10 @@
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    val compose_version by extra("1.0.0-beta08")
+    val compose_version by extra("1.0.0-rc01")
     repositories {
         google()
-        jcenter()
+        mavenCentral()
     }
     dependencies {
         classpath("com.android.tools.build:gradle:7.0.0-beta05")
@@ -30,8 +30,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
-        maven(url = "https://jitpack.io")
+        mavenCentral()
     }
 }
 
