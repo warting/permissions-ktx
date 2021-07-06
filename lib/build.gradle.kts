@@ -67,7 +67,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
 
     api("androidx.startup:startup-runtime:1.0.0")
-    api("androidx.activity:activity-ktx:1.3.0-beta01")
+    api("androidx.activity:activity-ktx:1.3.0-rc01")
     api("androidx.fragment:fragment-ktx:1.3.4")
 
     testImplementation("junit:junit:4.13.2")
