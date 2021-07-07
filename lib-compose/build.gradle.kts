@@ -20,7 +20,7 @@ import java.net.URL
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("org.jetbrains.dokka") version "1.4.32"
+    id("org.jetbrains.dokka") version "1.5.0"
     id("com.gladed.androidgitversion") version "0.4.14"
     id("maven-publish")
 }
