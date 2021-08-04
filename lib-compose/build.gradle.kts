@@ -81,7 +81,7 @@ val libraryVersion = androidGitVersion.name().replace("v", "")
 dependencies {
     // api(project(":lib"))
     api("se.warting:permissions-ktx:$libraryVersion")
-    api("androidx.activity:activity-compose:1.3.0-rc01")
+    api("androidx.activity:activity-compose:1.3.1")
 }
 
 
